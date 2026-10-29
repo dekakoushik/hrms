@@ -13,7 +13,7 @@ services:
       - APP_NAME=HRMS Enterprise
       - APP_ENV=${APP_ENV:-production}
       - APP_KEY=${APP_KEY:-base64:VN5QmQqBVmyYvEyQd4qSH22AoZYrbHTIxwJGjamgSDs=}
-      - APP_DEBUG=${APP_DEBUG:-false}
+      - APP_DEBUG=${APP_DEBUG:-true}
       - APP_URL=${APP_URL:-http://localhost:8000}
       - APP_TIMEZONE=Asia/Kolkata
       - DB_CONNECTION=sqlite

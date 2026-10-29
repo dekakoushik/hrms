@@ -25,9 +25,12 @@ if [ -z "$APP_KEY" ]; then
     php artisan key:generate --force
 fi
 
-# Run database migrations
+# Run database migrations and seed default configuration & superadmin
 echo "==> Running migrations..."
 php artisan migrate --force
+
+echo "==> Seeding initial data..."
+php artisan db:seed --force || true
 
 # Optimize Laravel configuration and views in production
 if [ "$APP_ENV" = "production" ]; then

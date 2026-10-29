@@ -62,5 +62,11 @@ class DatabaseSeeder extends Seeder
         foreach ($leavePolicies as $lp) {
             \App\Models\LeaveType::updateOrCreate(['code' => $lp['code']], $lp);
         }
+
+        $this->call([
+            CompanySeeder::class,
+            DepartmentDesignationSeeder::class,
+            SettingsSeeder::class,
+        ]);
     }
 }
