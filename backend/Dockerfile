@@ -3,36 +3,27 @@ FROM php:8.3-fpm-alpine
 # Set working directory
 WORKDIR /var/www/html
 
-# Install system dependencies & build tools
+# Install system packages
 RUN apk add --no-cache \
     nginx \
     curl \
     git \
     unzip \
-    libzip-dev \
-    libpng-dev \
-    libjpeg-turbo-dev \
-    freetype-dev \
-    libxml2-dev \
-    sqlite-dev \
-    oniguruma-dev \
-    icu-dev \
-    linux-headers
+    sqlite
 
-# Configure & install PHP extensions required by Laravel 13 & HRMS
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j$(nproc) \
-        pdo \
-        pdo_sqlite \
-        pdo_mysql \
-        sqlite3 \
-        mbstring \
-        xml \
-        zip \
-        gd \
-        intl \
-        bcmath \
-        opcache
+# Install PHP extensions using the official docker-php-extension-installer
+COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
+RUN install-php-extensions \
+    pdo_sqlite \
+    pdo_mysql \
+    sqlite3 \
+    mbstring \
+    xml \
+    zip \
+    gd \
+    intl \
+    bcmath \
+    opcache
 
 # Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
