@@ -1,0 +1,39 @@
+# Root gitignore
+.env
+.env.backup
+.env.production
+.env.local
+
+# Backend
+backend/vendor/
+backend/node_modules/
+backend/public/storage
+backend/public/build
+backend/public/hot
+backend/storage/*.key
+backend/storage/framework/cache/*
+backend/storage/framework/sessions/*
+backend/storage/framework/views/*
+backend/storage/logs/*
+backend/.phpunit.result.cache
+backend/.phpunit.cache
+
+# SQLite Database (Docker volume persists this in production)
+backend/database/*.sqlite
+backend/database/*.sqlite-wal
+backend/database/*.sqlite-shm
+!backend/database/.gitignore
+
+# Mobile App
+mobileapp/node_modules/
+mobileapp/.expo/
+mobileapp/dist/
+mobileapp/web-build/
+
+# IDE & OS
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
