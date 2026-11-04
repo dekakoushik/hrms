@@ -1,0 +1,71 @@
+services:
+  # 1. Redis In-Memory Cache & Session Store
+  redis:
+    image: redis:alpine
+    container_name: hrms-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - hrms-network
+
+  # 2. Laravel Backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: hrms-backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - APP_NAME=HRMS_Enterprise
+      - APP_ENV=production
+      - APP_KEY=base64:hcQNEUm3DWV70wEgoUKEfhpbFqYyZtB+zACq9MZHdRE=
+      - APP_DEBUG=false
+      - APP_URL=http://localhost:8000
+      - DB_CONNECTION=sqlite
+      - DB_DATABASE=/var/www/html/database/database.sqlite
+      - CACHE_STORE=redis
+      - QUEUE_CONNECTION=redis
+      - REDIS_CLIENT=predis
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - SESSION_DRIVER=redis
+    volumes:
+      - backend_db:/var/www/html/database
+      - backend_storage:/var/www/html/storage
+    depends_on:
+      - redis
+    networks:
+      - hrms-network
+
+  # 3. Next.js Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_API_URL=http://localhost:8000/api
+    container_name: hrms-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=http://localhost:8000/api
+    depends_on:
+      - backend
+    networks:
+      - hrms-network
+
+volumes:
+  redis_data:
+  backend_db:
+  backend_storage:
+
+networks:
+  hrms-network:
+    driver: bridge

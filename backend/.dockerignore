@@ -1,0 +1,9 @@
+.git
+.env
+vendor
+composer.phar
+test_redis.php
+verify_cache.php
+storage/logs/*
+!storage/logs/.gitignore
+

@@ -1,0 +1,31 @@
+# Environment and Credentials
+.env
+.env.*
+!.env.example
+
+# Composer phar and vendor
+composer.phar
+vendor/
+backend/vendor/
+backend/storage/logs/*.log
+backend/storage/framework/cache/*
+backend/storage/framework/sessions/*
+backend/storage/framework/views/*
+backend/database/*.sqlite
+backend/database/*.sqlite-journal
+
+# Node / NPM / Next.js
+node_modules/
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/build/
+*.tsbuildinfo
+
+# IDEs & System
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+*.log
+.agent/
